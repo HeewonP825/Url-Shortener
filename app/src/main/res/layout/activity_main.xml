@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/etOriginalUrl"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@color/mainColor"
         android:text="Shorten URL"
         android:layout_centerHorizontal="true"/>
 
@@ -49,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/btnShorten"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="Shortened URL will be displayed here"
         android:layout_centerHorizontal="true"/>
 

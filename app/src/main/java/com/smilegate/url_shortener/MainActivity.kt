@@ -6,7 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -16,18 +20,33 @@ import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
 import java.net.URLEncoder
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ViewTreeObserver.OnPreDrawListener {
 
     private lateinit var binding: ActivityMainBinding
 
+    private val splashContent by lazy { findViewById<View>(android.R.id.content) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //installSplashScreen()
+        splashContent.viewTreeObserver.addOnPreDrawListener(this)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.btnShorten.setOnClickListener {
             val originalUrl = binding.etOriginalUrl.text.toString()
             shortenUrl(originalUrl)
+        }
+
+        /* Status Bar & Navigation Bar */
+        val barColor = ContextCompat.getColor(this, R.color.white)
+        with(window) {
+            statusBarColor = barColor
+        }
+        with(WindowInsetsControllerCompat(window, window.decorView)) {
+            isAppearanceLightStatusBars = true
         }
 
 //        binding.btnExpand.setOnClickListener {
@@ -128,4 +147,8 @@ class MainActivity : AppCompatActivity() {
 //
 //        Volley.newRequestQueue(this).add(request)
 //    }
+
+    override fun onPreDraw(): Boolean {
+        return true
+    }
 }
